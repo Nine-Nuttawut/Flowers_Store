@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Flower - BU-Flower Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB6C1', // Pastel Pink
+                        secondary: '#87CEEB', // Pastel Blue
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-gradient-to-r from-pink-300 to-blue-300 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-4xl font-extrabold text-center bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent">🌸 BU-Flower Store 💐</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <h2 class="text-2xl font-semibold text-pink-800 mb-6">Edit Flower</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="bg-pink-50 p-6 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label for="name" class="block text-pink-700 text-sm font-bold mb-2">Name:</label>
+                <input type="text" id="name" name="name" value="{{ flower.name }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-pink-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="price" class="block text-pink-700 text-sm font-bold mb-2">Price:</label>
+                <input type="number" step="0.01" id="price" name="price" value="{{ flower.price }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-pink-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="stock" class="block text-pink-700 text-sm font-bold mb-2">Stock:</label>
+                <input type="number" id="stock" name="stock" value="{{ flower.stock }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-pink-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="category_id" class="block text-pink-700 text-sm font-bold mb-2">Category:</label>
+                <select id="category_id" name="category_id" required class="shadow appearance-none border rounded w-full py-2 px-3 text-pink-700 leading-tight focus:outline-none focus:shadow-outline">
+                    {% for category in categories %}
+                        <option value="{{ category.category_id }}" {% if category.category_id == flower.category_id %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="color" class="block text-pink-700 text-sm font-bold mb-2">Color:</label>
+                <input type="text" id="color" name="color" value="{{ flower.color }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-pink-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="image" class="block text-pink-700 text-sm font-bold mb-2">Image:</label>
+                {% if flower.image %}
+                    <img src="{{ url_for('static', filename='images/' + flower.image) }}" alt="Current image" class="w-32 h-32 object-cover mb-2">
+                    <p class="text-sm text-pink-600 mb-2">Current image: {{ flower.image }}</p>
+                {% endif %}
+                <input type="file" id="image" name="image" accept="image/*" class="shadow appearance-none border rounded w-full py-2 px-3 text-pink-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label class="block text-pink-700 text-sm font-bold mb-2">
+                    <input type="checkbox" name="is_available" {% if flower.is_available %}checked{% endif %} class="mr-2 leading-tight">
+                    Available
+                </label>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Update Flower</button>
+                <a href="{{ url_for('flowers') }}" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Cancel</a>
+            </div>
+        </form>
+
+        <div class="mt-6">
+            <a href="{{ url_for('index') }}" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Back to Home</a>
+        </div>
+    </main>
+
+    <footer class="bg-gradient-to-r from-pink-300 to-blue-300 text-white py-4 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 BU-Flower Store. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
